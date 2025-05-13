@@ -6,13 +6,21 @@ body {
     text-align: center;
   }
   
-  img.main-image {
+  /* Main image at top of homepage */
+  .main-image {
     width: 100%;
-    max-height: 400px;
+    max-height: 300px;
     object-fit: cover;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
+  /* Section header */
+  h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* New game button */
   .new-game-button {
     display: inline-block;
     background-color: #26ACAF;
@@ -28,6 +36,7 @@ body {
     background-color: #1d9093;
   }
   
+  /* Return to home button (used on game page) */
   .home-button {
     display: inline-block;
     margin-bottom: 20px;
@@ -42,13 +51,13 @@ body {
     background-color: #5a5f6a;
   }
   
+  /* Team selection images */
   .player-select {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     margin-bottom: 10px;
   }
-  
   .player-select img {
     width: 80px;
     height: 80px;
@@ -63,6 +72,7 @@ body {
     border-color: #FFC24A;
   }
   
+  /* Player stats grid */
   #playerGrid {
     display: flex;
     flex-wrap: wrap;
@@ -83,21 +93,11 @@ body {
     object-fit: cover;
   }
   
+  /* Match history list */
   ul {
     list-style-type: none;
     padding: 0;
     margin-top: 10px;
     text-align: left;
-  }
-  .main-image {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    margin-bottom: 10px;
-  }
-  
-  h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
   }
   
