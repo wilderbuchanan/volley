@@ -2,6 +2,14 @@ const players = ["Wilder", "Jin", "Alex", "Daniel", "Peter", "Other"];
 let stats = {};
 players.forEach(p => stats[p] = { wins: 0, losses: 0 });
 
+// Load match history from localStorage
+let matchLog = JSON.parse(localStorage.getItem("matchLog") || "[]");
+
+function saveMatchLog(entry) {
+  matchLog.push(entry);
+  localStorage.setItem("matchLog", JSON.stringify(matchLog));
+}
+
 function createPlayerSelector(containerId) {
   const container = document.getElementById(containerId);
   players.forEach(player => {
@@ -11,7 +19,6 @@ function createPlayerSelector(containerId) {
     img.alt = player;
     img.dataset.name = player;
 
-    // fallback to "other" image if not found
     img.onerror = () => {
       img.src = `icons/other.png`;
     };
@@ -36,6 +43,7 @@ function getSelectedPlayers(containerId) {
 
 function updateStandings() {
   const list = document.getElementById("standings");
+  if (!list) return;
   list.innerHTML = "";
   Object.entries(stats).forEach(([name, record]) => {
     const li = document.createElement("li");
@@ -44,10 +52,25 @@ function updateStandings() {
   });
 }
 
+function updateMatchHistory() {
+  const historyEl = document.getElementById("matchHistory");
+  if (!historyEl) return;
+  historyEl.innerHTML = "";
+
+  matchLog.slice().reverse().forEach(match => {
+    const li = document.createElement("li");
+    li.textContent = `[${new Date(match.timestamp).toLocaleString()}] ` +
+      `Team ${match.winner} won ${match.score} — ` +
+      `Team A: ${match.teamA.join(", ")} vs Team B: ${match.teamB.join(", ")}`;
+    historyEl.appendChild(li);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   createPlayerSelector("teamA");
   createPlayerSelector("teamB");
   updateStandings();
+  updateMatchHistory();
 
   const form = document.getElementById("matchForm");
   if (form) {
@@ -69,6 +92,19 @@ document.addEventListener("DOMContentLoaded", () => {
       losers.forEach(p => stats[p].losses++);
 
       updateStandings();
+
+      const now = new Date().toISOString();
+      const score = prompt("Enter final score (e.g., 21-18):") || "N/A";
+
+      saveMatchLog({
+        timestamp: now,
+        teamA,
+        teamB,
+        winner,
+        score
+      });
+
+      updateMatchHistory();
       alert("Match recorded!");
     });
   }

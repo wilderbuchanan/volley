@@ -49,3 +49,8 @@ body {
     border-color: #FFC24A;
   }
   
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
