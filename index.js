@@ -1,14 +1,15 @@
 const allPlayers = ["Wilder", "Jin", "Alex", "Daniel", "Peter", "Other"];
 const displayPlayers = allPlayers.filter(p => p !== "Other");
 
-function calculateWinRates() {
-  let matchLog = [];
-  try {
-    matchLog = JSON.parse(localStorage.getItem("matchLog") || "[]");
-  } catch {
-    console.error("Could not parse matchLog from localStorage");
-  }
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyFTFblxktkwbjxgLVVzWpZaHfk_agyhh8O9tq-hiiyUmLeXB9FHeW4hTmdAE9wvA-ECQ/exec";
 
+async function fetchMatchData() {
+  const res = await fetch(GOOGLE_SHEET_URL);
+  const data = await res.json();
+  return data;
+}
+
+function calculateWinRates(matchLog) {
   let playerStats = {};
   allPlayers.forEach(name => {
     playerStats[name] = { wins: 0, games: 0 };
@@ -32,11 +33,9 @@ function calculateWinRates() {
   return playerStats;
 }
 
-function renderPlayers() {
+function renderPlayers(stats) {
   const container = document.getElementById("playerGrid");
   if (!container) return;
-
-  const stats = calculateWinRates();
 
   displayPlayers.forEach(name => {
     const div = document.createElement("div");
@@ -57,4 +56,12 @@ function renderPlayers() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", renderPlayers);
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const matchLog = await fetchMatchData();
+    const stats = calculateWinRates(matchLog);
+    renderPlayers(stats);
+  } catch (err) {
+    console.error("Failed to load match data from Google Sheets", err);
+  }
+});
