@@ -6,9 +6,16 @@ function createPlayerSelector(containerId) {
   const container = document.getElementById(containerId);
   players.forEach(player => {
     const img = document.createElement("img");
-    img.src = `icons/${player.toLowerCase()}.png`;  // use lowercase and .png
+    const filename = player.toLowerCase() + ".png";
+    img.src = `icons/${filename}`;
     img.alt = player;
     img.dataset.name = player;
+
+    // Fallback image in case of broken link
+    img.onerror = () => {
+      img.src = `icons/other.png`;
+    };
+
     img.addEventListener("click", () => {
       img.classList.toggle("selected");
       const selected = container.querySelectorAll(".selected");
@@ -17,6 +24,7 @@ function createPlayerSelector(containerId) {
         alert("You can only select 2 players per team.");
       }
     });
+
     container.appendChild(img);
   });
 }
@@ -41,24 +49,27 @@ document.addEventListener("DOMContentLoaded", () => {
   createPlayerSelector("teamB");
   updateStandings();
 
-  document.getElementById("matchForm").addEventListener("submit", e => {
-    e.preventDefault();
-    const teamA = getSelectedPlayers("teamA");
-    const teamB = getSelectedPlayers("teamB");
-    const winner = document.getElementById("winner").value;
+  const form = document.getElementById("matchForm");
+  if (form) {
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const teamA = getSelectedPlayers("teamA");
+      const teamB = getSelectedPlayers("teamB");
+      const winner = document.getElementById("winner").value;
 
-    if (teamA.length !== 2 || teamB.length !== 2) {
-      alert("Each team must have exactly 2 players.");
-      return;
-    }
+      if (teamA.length !== 2 || teamB.length !== 2) {
+        alert("Each team must have exactly 2 players.");
+        return;
+      }
 
-    const winners = winner === "A" ? teamA : teamB;
-    const losers = winner === "A" ? teamB : teamA;
+      const winners = winner === "A" ? teamA : teamB;
+      const losers = winner === "A" ? teamB : teamA;
 
-    winners.forEach(p => stats[p].wins++);
-    losers.forEach(p => stats[p].losses++);
+      winners.forEach(p => stats[p].wins++);
+      losers.forEach(p => stats[p].losses++);
 
-    updateStandings();
-    alert("Match recorded!");
-  });
+      updateStandings();
+      alert("Match recorded!");
+    });
+  }
 });
