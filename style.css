@@ -3,6 +3,7 @@ body {
     padding: 10px;
     max-width: 600px;
     margin: auto;
+    text-align: center;
   }
   
   img.main-image {
@@ -13,14 +14,24 @@ body {
   }
   
   .new-game-button {
-    display: block;
-    text-align: center;
+    display: inline-block;
     background-color: #26ACAF;
     color: white;
-    padding: 15px;
+    padding: 15px 25px;
     font-size: 20px;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+  }
+  .new-game-button:hover {
+    background-color: #1d9093;
+  }
+  
+  .player-select {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
   }
   
   .player-select img {
@@ -31,6 +42,7 @@ body {
     border: 3px solid transparent;
     border-radius: 50%;
     cursor: pointer;
+    transition: border 0.2s ease;
   }
   
   .player-select img.selected {

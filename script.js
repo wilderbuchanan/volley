@@ -11,7 +11,7 @@ function createPlayerSelector(containerId) {
     img.alt = player;
     img.dataset.name = player;
 
-    // Fallback image in case of broken link
+    // fallback to "other" image if not found
     img.onerror = () => {
       img.src = `icons/other.png`;
     };
