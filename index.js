@@ -6,12 +6,22 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyFTFblxktkwbj
 
 // Use AllOrigins proxy to bypass CORS
 async function fetchMatchData() {
-  const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(GOOGLE_SHEET_URL)}`;
-  const res = await fetch(proxyURL);
-  const wrapped = await res.json();
-  const data = JSON.parse(wrapped.contents);
-  return data;
-}
+    const url = "https://script.google.com/macros/s/AKfycbyFTFblxktkwbjxgLVVzWpZaHfk_agyhh8O9tq-hiiyUmLeXB9FHeW4hTmdAE9wvA-ECQ/exec";
+    const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+  
+    const res = await fetch(proxyURL);
+    if (!res.ok) throw new Error("Proxy fetch failed");
+  
+    const wrapped = await res.json();
+    try {
+      const data = JSON.parse(wrapped.contents);
+      return data;
+    } catch (err) {
+      console.error("❌ JSON parse failed:", wrapped.contents);
+      throw err;
+    }
+  }
+  
 
 function calculateWinRates(matchLog) {
   let playerStats = {};
