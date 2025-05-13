@@ -41,6 +41,14 @@ function getSelectedPlayers(containerId) {
               .map(img => img.dataset.name);
 }
 
+function resetTeamSelections() {
+  document.querySelectorAll(".player-select img").forEach(img => {
+    img.classList.remove("selected");
+  });
+  const winnerSelect = document.getElementById("winner");
+  if (winnerSelect) winnerSelect.value = "A";
+}
+
 function updateStandings() {
   const list = document.getElementById("standings");
   if (!list) return;
@@ -106,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       updateMatchHistory();
       alert("Match recorded!");
+      resetTeamSelections(); // ✅ clear selections and reset form
     });
   }
 });
