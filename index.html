@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volleyball Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Volleyball Tracker</h1>
+
+  <form id="matchForm">
+    <label>Team A:</label><br />
+    <select multiple id="teamA" required></select><br />
+
+    <label>Team B:</label><br />
+    <select multiple id="teamB" required></select><br />
+
+    <label>Winner:</label><br />
+    <select id="winner" required>
+      <option value="A">Team A</option>
+      <option value="B">Team B</option>
+    </select><br /><br />
+
+    <button type="submit">Record Match</button>
+  </form>
+
+  <h2>Standings</h2>
+  <ul id="standings"></ul>
+
+  <script src="script.js"></script>
+</body>
+</html>
