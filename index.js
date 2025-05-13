@@ -1,13 +1,15 @@
 const allPlayers = ["Wilder", "Jin", "Alex", "Daniel", "Peter", "Other"];
 const displayPlayers = allPlayers.filter(p => p !== "Other");
 
-// Use corsproxy.io to get around Google Script's CORS restriction
+// Google Apps Script endpoint
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyFTFblxktkwbjxgLVVzWpZaHfk_agyhh8O9tq-hiiyUmLeXB9FHeW4hTmdAE9wvA-ECQ/exec";
-const PROXIED_URL = `https://corsproxy.io/?${encodeURIComponent(GOOGLE_SHEET_URL)}`;
 
+// Use AllOrigins proxy to bypass CORS
 async function fetchMatchData() {
-  const res = await fetch(PROXIED_URL);
-  const data = await res.json();
+  const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(GOOGLE_SHEET_URL)}`;
+  const res = await fetch(proxyURL);
+  const wrapped = await res.json();
+  const data = JSON.parse(wrapped.contents);
   return data;
 }
 
