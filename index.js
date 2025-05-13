@@ -1,5 +1,5 @@
 const players = ["Wilder", "Jin", "Alex", "Daniel", "Peter", "Other"];
-let stats = JSON.parse(localStorage.getItem("matchLog") || "[]");
+let matchLog = JSON.parse(localStorage.getItem("matchLog") || "[]");
 
 function calculateWinRates() {
   let playerStats = {};
@@ -7,14 +7,16 @@ function calculateWinRates() {
     playerStats[name] = { wins: 0, games: 0 };
   });
 
-  stats.forEach(match => {
+  matchLog.forEach(match => {
     const winners = match.winner === "A" ? match.teamA : match.teamB;
     const allPlayers = [...match.teamA, ...match.teamB];
 
     allPlayers.forEach(p => {
       if (playerStats[p]) {
         playerStats[p].games += 1;
-        if (winners.includes(p)) playerStats[p].wins += 1;
+        if (winners.includes(p)) {
+          playerStats[p].wins += 1;
+        }
       }
     });
   });

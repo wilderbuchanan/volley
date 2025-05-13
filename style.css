@@ -22,9 +22,24 @@ body {
     text-decoration: none;
     border-radius: 10px;
     transition: background-color 0.2s ease;
+    margin-top: 20px;
   }
   .new-game-button:hover {
     background-color: #1d9093;
+  }
+  
+  .home-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #3B404A;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+  .home-button:hover {
+    background-color: #5a5f6a;
   }
   
   .player-select {
@@ -44,15 +59,10 @@ body {
     cursor: pointer;
     transition: border 0.2s ease;
   }
-  
   .player-select img.selected {
     border-color: #FFC24A;
   }
   
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
   #playerGrid {
     display: flex;
     flex-wrap: wrap;
@@ -71,5 +81,12 @@ body {
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+    text-align: left;
   }
   
