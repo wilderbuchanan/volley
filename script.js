@@ -6,7 +6,7 @@ function createPlayerSelector(containerId) {
   const container = document.getElementById(containerId);
   players.forEach(player => {
     const img = document.createElement("img");
-    img.src = `icons/${player}.jpg`;
+    img.src = `icons/${player.toLowerCase()}.png`;  // use lowercase and .png
     img.alt = player;
     img.dataset.name = player;
     img.addEventListener("click", () => {
