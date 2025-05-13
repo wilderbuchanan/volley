@@ -53,4 +53,23 @@ body {
     list-style-type: none;
     padding: 0;
   }
+  #playerGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .player-card {
+    text-align: center;
+    width: 100px;
+  }
+  
+  .player-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
   
