@@ -5,6 +5,20 @@ players.forEach(p => stats[p] = { wins: 0, losses: 0 });
 // Load match history from localStorage
 let matchLog = JSON.parse(localStorage.getItem("matchLog") || "[]");
 
+// Google Apps Script Web App URL
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyFTFblxktkwbjxgLVVzWpZaHfk_agyhh8O9tq-hiiyUmLeXB9FHeW4hTmdAE9wvA-ECQ/exec";
+
+function sendMatchToGoogleSheet(entry) {
+  fetch(GOOGLE_SHEET_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(entry)
+  });
+}
+
 function saveMatchLog(entry) {
   matchLog.push(entry);
   localStorage.setItem("matchLog", JSON.stringify(matchLog));
@@ -104,17 +118,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const now = new Date().toISOString();
       const score = prompt("Enter final score (e.g., 21-18):") || "N/A";
 
-      saveMatchLog({
+      const matchData = {
         timestamp: now,
         teamA,
         teamB,
         winner,
         score
-      });
+      };
 
+      saveMatchLog(matchData);
+      sendMatchToGoogleSheet(matchData);
       updateMatchHistory();
       alert("Match recorded!");
-      resetTeamSelections(); // ✅ clear selections and reset form
+      resetTeamSelections();
     });
   }
 });
