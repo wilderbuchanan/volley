@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  img.main-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  .new-game-button {
+    display: block;
+    text-align: center;
+    background-color: #26ACAF;
+    color: white;
+    padding: 15px;
+    font-size: 20px;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+  
+  .player-select img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin: 5px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .player-select img.selected {
+    border-color: #FFC24A;
+  }
+  

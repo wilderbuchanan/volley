@@ -1,16 +1,29 @@
-const players = ["Wilder", "Jin", "Alex", "Daniel", "Peter", "Cam", "Other"];
+const players = ["Wilder", "Jin", "Alex", "Daniel", "Peter", "Other"];
 let stats = {};
-
 players.forEach(p => stats[p] = { wins: 0, losses: 0 });
 
-function populateSelect(id) {
-  const sel = document.getElementById(id);
-  players.forEach(p => {
-    const opt = document.createElement("option");
-    opt.value = p;
-    opt.text = p;
-    sel.appendChild(opt);
+function createPlayerSelector(containerId) {
+  const container = document.getElementById(containerId);
+  players.forEach(player => {
+    const img = document.createElement("img");
+    img.src = `icons/${player}.jpg`;
+    img.alt = player;
+    img.dataset.name = player;
+    img.addEventListener("click", () => {
+      img.classList.toggle("selected");
+      const selected = container.querySelectorAll(".selected");
+      if (selected.length > 2) {
+        img.classList.remove("selected");
+        alert("You can only select 2 players per team.");
+      }
+    });
+    container.appendChild(img);
   });
+}
+
+function getSelectedPlayers(containerId) {
+  return Array.from(document.getElementById(containerId).querySelectorAll(".selected"))
+              .map(img => img.dataset.name);
 }
 
 function updateStandings() {
@@ -24,14 +37,14 @@ function updateStandings() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  populateSelect("teamA");
-  populateSelect("teamB");
+  createPlayerSelector("teamA");
+  createPlayerSelector("teamB");
   updateStandings();
 
   document.getElementById("matchForm").addEventListener("submit", e => {
     e.preventDefault();
-    const teamA = Array.from(document.getElementById("teamA").selectedOptions).map(o => o.value);
-    const teamB = Array.from(document.getElementById("teamB").selectedOptions).map(o => o.value);
+    const teamA = getSelectedPlayers("teamA");
+    const teamB = getSelectedPlayers("teamB");
     const winner = document.getElementById("winner").value;
 
     if (teamA.length !== 2 || teamB.length !== 2) {
@@ -39,12 +52,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const losers = winner === "A" ? teamB : teamA;
     const winners = winner === "A" ? teamA : teamB;
+    const losers = winner === "A" ? teamB : teamA;
 
     winners.forEach(p => stats[p].wins++);
     losers.forEach(p => stats[p].losses++);
 
     updateStandings();
+    alert("Match recorded!");
   });
 });
