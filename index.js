@@ -1,10 +1,12 @@
 const allPlayers = ["Wilder", "Jin", "Alex", "Daniel", "Peter", "Other"];
 const displayPlayers = allPlayers.filter(p => p !== "Other");
 
+// Use corsproxy.io to get around Google Script's CORS restriction
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyFTFblxktkwbjxgLVVzWpZaHfk_agyhh8O9tq-hiiyUmLeXB9FHeW4hTmdAE9wvA-ECQ/exec";
+const PROXIED_URL = `https://corsproxy.io/?${encodeURIComponent(GOOGLE_SHEET_URL)}`;
 
 async function fetchMatchData() {
-  const res = await fetch(GOOGLE_SHEET_URL);
+  const res = await fetch(PROXIED_URL);
   const data = await res.json();
   return data;
 }
@@ -62,6 +64,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const stats = calculateWinRates(matchLog);
     renderPlayers(stats);
   } catch (err) {
-    console.error("Failed to load match data from Google Sheets", err);
+    console.error("❌ Failed to load match data from Google Sheets", err);
   }
 });
